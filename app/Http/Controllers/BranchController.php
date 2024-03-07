@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Section\StoreRequest;
-use App\Http\Requests\Section\UpdateRequest;
-use App\Http\Resources\Branch\BranchResource;
+use App\Http\Requests\Branch\StoreRequest;
+use App\Http\Requests\Branch\UpdateRequest;
+use App\Http\Resources\Section\SectionResource;
+use App\Models\Branch;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
-class SectionController extends Controller
+class BranchController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return inertia('Section/Index');
+        //
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response|ResponseFactory
     {
-        return inertia('Section/Create');
+        $sections = SectionResource::collection(Section::all())->resolve();
+
+        return inertia('Branch/Create', compact('sections'));
     }
 
     /**
@@ -32,7 +37,7 @@ class SectionController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        Section::firstOrCreate($data);
+        Branch::firstOrCreate($data);
 
         return redirect()->route('sections.index');
     }
@@ -40,7 +45,7 @@ class SectionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Section $section)
+    public function show(Branch $branch)
     {
         //
     }
@@ -48,7 +53,7 @@ class SectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Section $section)
+    public function edit(Branch $branch)
     {
         //
     }
@@ -56,7 +61,7 @@ class SectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Section $section)
+    public function update(UpdateRequest $request, Branch $branch)
     {
         //
     }
@@ -64,13 +69,8 @@ class SectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Section $section)
+    public function destroy(Branch $branch)
     {
         //
-    }
-
-    public function branchIndex(Section $section)
-    {
-        return BranchResource::collection($section->branches)->resolve();
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use Illuminate\Foundation\Application;
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('sections', SectionController::class);
+    Route::resource('branches', BranchController::class);
+
+    Route::get('/sections/{section}/branches', [SectionController::class, 'branchIndex']);
 });
 
 require __DIR__.'/auth.php';
