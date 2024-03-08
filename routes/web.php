@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('branches', BranchController::class);
 
     Route::get('/sections/{section}/branches', [SectionController::class, 'branchIndex']);
+    Route::get('/sections/{section}/branches_except/{branch}', [SectionController::class, 'branchIndexExcept']);
 });
 
 require __DIR__.'/auth.php';
